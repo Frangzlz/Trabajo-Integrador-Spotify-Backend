@@ -22,6 +22,7 @@ coverage/
 
 # Dependency directories
 jspm_packages/
+package-lock.json
 
 # Optional npm cache directory
 .npm

@@ -1,0 +1,26 @@
+{
+  "name": "trabajo-integrador-spotify-backend",
+  "version": "1.0.0",
+  "description": "Construir una **plataforma de streaming musical** (estilo Spotify) con **Node.js + Express + MySQL**, que contemple un **modelo relacional correcto**, endpoints REST bien documentados y **validaciones** para prevenir errores frecuentes.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frangzlz/Trabajo-Integrador-Spotify-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Frangzlz/Trabajo-Integrador-Spotify-Backend/issues"
+  },
+  "homepage": "https://github.com/Frangzlz/Trabajo-Integrador-Spotify-Backend#readme",
+  "dependencies": {
+    "express": "5.1.0",
+    "sequelize": "6.37.7"
+  }
+}

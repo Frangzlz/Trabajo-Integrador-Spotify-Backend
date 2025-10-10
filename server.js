@@ -5,8 +5,12 @@
 
 const app = require("./src/app");
 
+process.loadEnvFile()
 const PORT = process.env.PORT || 3000;
 
-// TODO: Configurar el servidor para escuchar en el puerto especificado
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando: http://localhost:${PORT}`)
+})
+
 // TODO: Agregar manejo de errores del servidor
 // TODO: Agregar logs de inicio del servidor
