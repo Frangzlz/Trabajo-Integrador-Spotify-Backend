@@ -1,14 +1,11 @@
-/**
- * Archivo principal de rutas
- * Los estudiantes deben importar y configurar todas las rutas aquí
- */
+// Archivo principal de rutas
 
 const express = require("express");
 const router = express.Router();
 
 // TODO: Importar todas las rutas
 // const usuariosRoutes = require('./usuarios');
-// const artistasRoutes = require('./artistas');
+const artistasRoutes = require('./artistas');
 // const albumesRoutes = require('./albumes');
 // const cancionesRoutes = require('./canciones');
 // const generosRoutes = require('./generos');
@@ -20,7 +17,7 @@ const router = express.Router();
 
 // TODO: Configurar las rutas con sus prefijos
 // router.use('/usuarios', usuariosRoutes);
-// router.use('/artistas', artistasRoutes);
+router.use('/artistas', artistasRoutes);
 // router.use('/albumes', albumesRoutes);
 // router.use('/canciones', cancionesRoutes);
 // router.use('/generos', generosRoutes);
@@ -30,7 +27,7 @@ const router = express.Router();
 // router.use('/pagos', pagosRoutes);
 // router.use('/vistas', vistasRoutes);
 
-// Ruta de prueba
+// Ruta de informacion general
 router.get("/", (req, res) => {
   res.json({
     message: "API Spotify - Backend funcionando correctamente",
