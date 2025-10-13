@@ -6,17 +6,35 @@
 ### ==========================
 ### USUARIOS
 ### ==========================
-# Crear usuario (OK)
+### Crear usuario (OK)
 POST {{baseUrl}}/usuarios
 Content-Type: {{json}}
 
 {
+  "usuario": "ANARCIA",
+  "nom_y_ape": "ANA GARCIA",
   "email": "ana.garcia@example.com",
   "password": "Secr3t0!",
   "fecha_nac": "1995-05-20",
   "sexo": "F",
   "cp": "4600",
-  "id_pais": 10,
+  "id_pais": 1,
+  "tipo_usuario_actual": 1
+}
+
+### Crear usuario (OK)
+POST {{baseUrl}}/usuarios
+Content-Type: {{json}}
+
+{
+  "usuario": "GARCIANA",
+  "nom_y_ape": "GARCIA ANA",
+  "email": "garcia.ana@example.com",
+  "password": "Secr3t0!",
+  "fecha_nac": "1995-05-20",
+  "sexo": "F",
+  "cp": "4600",
+  "id_pais": 1,
   "tipo_usuario_actual": 1
 }
 
@@ -29,8 +47,11 @@ Content-Type: {{json}}
   "fecha_nac": "1995-05-20"
 }
 
+### Todos los usuarios
+GET {{baseUrl}}/usuarios
+
 ### Listar usuarios
-GET {{baseUrl}}/usuarios?page=1&limit=20
+GET {{baseUrl}}/usuarios?page=1
 
 ### Obtener usuario por ID
 GET {{baseUrl}}/usuarios/1
@@ -43,8 +64,22 @@ Content-Type: {{json}}
   "password": "Nuev4Clave!"
 }
 
+### Actualizar usuario
+PUT {{baseUrl}}/usuarios/1
+Content-Type: application/json
+
+{
+  "nom_y_ape": "RODRIGO TRAVERSO",
+  "cp": "1013",
+  "tipo_usuario_actual": 1,
+  "sexo": "M"
+}
+
 ### Listar usuarios con password vencida (>90 días)
 GET {{baseUrl}}/usuarios/password-vencidas
+
+### Eliminar usuario (HARD-DELETE)
+DELETE {{baseUrl}}/usuarios/1
 
 
 ### ==========================

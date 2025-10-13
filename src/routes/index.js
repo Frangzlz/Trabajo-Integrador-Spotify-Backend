@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 // TODO: Importar todas las rutas
-// const usuariosRoutes = require('./usuarios');
+const usuariosRoutes = require('./usuarios');
 const artistasRoutes = require('./artistas');
 // const albumesRoutes = require('./albumes');
 // const cancionesRoutes = require('./canciones');
@@ -16,7 +16,7 @@ const artistasRoutes = require('./artistas');
 // const vistasRoutes = require('./vistas');
 
 // TODO: Configurar las rutas con sus prefijos
-// router.use('/usuarios', usuariosRoutes);
+router.use('/usuarios', usuariosRoutes);
 router.use('/artistas', artistasRoutes);
 // router.use('/albumes', albumesRoutes);
 // router.use('/canciones', cancionesRoutes);

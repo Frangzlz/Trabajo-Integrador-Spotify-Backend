@@ -167,15 +167,16 @@ Incluye, como mínimo, estas tablas (puedes agregar otras si aportan valor):
 Prefijo sugerido: `/api/v1`.
 
 ### Usuarios
-- **GET** `/usuarios` → lista.
-- **GET** `/usuarios/:id` → detalle.
-- **POST** `/usuarios` → crear (validar email único, hashear password, setear `fecha_ult_mod_password`).
-- **PUT** `/usuarios/:id` → actualizar (si cambia `password`, actualizar `fecha_ult_mod_password`).
-- **DELETE** `/usuarios/:id` → baja lógica (`activo=false`) o hard-delete si lo justificás.
-- **GET** `/usuarios/password-vencidas` → lista usuarios con contraseña > 90 días.
+- **GET** `/usuarios` → lista y lista con paginación. ✅
+- **GET** `/usuarios/:id` → detalle. ✅
+- **POST** `/usuarios` → crear (validar email único, hashear password, setear `fecha_ult_mod_password`). ✅
+- **PUT** `/usuarios/:id` → actualizar (si cambia `password`, actualizar `fecha_ult_mod_password`). ✅
+- **DELETE** `/usuarios/:id` → baja lógica (`activo=false`) o hard-delete si lo justificás. (HARD-DELETE) ✅
+- **GET** `/usuarios/password-vencidas` → lista usuarios con contraseña > 90 días. ✅
 
 ### Artistas
-- **GET** `/artistas` y **GET** `/artistas/:id`.
+- **GET** `/artistas`. ✅
+- **GET** `/artistas/:id`.
 - **POST** `/artistas` → validar `nombre` único.
 
 ### Álbumes

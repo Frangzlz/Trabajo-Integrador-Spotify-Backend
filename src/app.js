@@ -7,6 +7,7 @@ const express = require("express");
 const router = require("./routes/index");
 const sequelize = require("./config/database");
 const { Artista } = require("./models/Artista");
+const { Usuario } = require("./models/Usuario");
 
 // TODO: Importar las rutas
 
@@ -23,6 +24,7 @@ app.use(async (req, res, next) => {
   try {
     await sequelize.authenticate()
     await Artista.sync()
+    await Usuario.sync()
     next()
   } catch (err) {
     res.status(500).json({
