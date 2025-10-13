@@ -14,7 +14,7 @@ const Artista = sequelize.define('artista', {
     unique: true,
     allowNull: false
   },
-  imagen: {
+  imagen_url: {
     type: DataTypes.STRING(250),
     allowNull: true,
     defaultValue: ''

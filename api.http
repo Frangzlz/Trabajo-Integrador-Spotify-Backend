@@ -97,6 +97,9 @@ Content-Type: {{json}}
 ### Listar artistas
 GET {{baseUrl}}/artistas
 
+### Artista por ID
+GET {{baseUrl}}/artistas/4
+
 
 ### ==========================
 ### ÁLBUMES

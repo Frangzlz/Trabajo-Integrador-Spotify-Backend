@@ -176,8 +176,8 @@ Prefijo sugerido: `/api/v1`.
 
 ### Artistas
 - **GET** `/artistas`. ✅
-- **GET** `/artistas/:id`.
-- **POST** `/artistas` → validar `nombre` único.
+- **GET** `/artistas/:id`. ✅
+- **POST** `/artistas` → validar `nombre` único. ✅
 
 ### Álbumes
 - **GET** `/albumes` → filtros: `?artistaId`, `?q`.
