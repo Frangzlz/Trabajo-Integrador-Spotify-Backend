@@ -22,7 +22,7 @@ const getUsuarios = async (req, res) => {
       })
 
       if (rows.length === 0) {
-        return res.status(404).json({ error: "No se encontraron más usuarios" })
+        return res.status(404).json({ error: "No se encontraron más usuarios." })
       }
 
       // Calcular total de páginas
@@ -39,7 +39,7 @@ const getUsuarios = async (req, res) => {
     // Lista normal, con todos los usuarios
     const usuarios = await Usuario.findAll()
     if (usuarios.length === 0) {
-      return res.status(404).json({ error: "No se encontraron usuarios" })
+      return res.status(404).json({ error: "No se encontraron usuarios." })
     }
     
     const usuariosData = usuarios.map(usuario => usuario.dataValues)
@@ -58,7 +58,7 @@ const getUsuarioById = async (req, res) => {
 
     const usuario = await Usuario.findByPk(id)
     if (!usuario) {
-      return res.status(404).json({ error: "No se encontro al usuario" })
+      return res.status(404).json({ error: "No se encontro al usuario." })
     }
     
     return res.json(usuario)
@@ -113,7 +113,6 @@ const createUsuario = async (req, res) => {
       sexo,
       cp,
       password,
-      cambio_de_password
     } = req.body
 
     // Validaciones
