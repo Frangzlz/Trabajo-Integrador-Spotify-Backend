@@ -180,10 +180,10 @@ Prefijo sugerido: `/api/v1`.
 - **POST** `/artistas` → validar `nombre` único. ✅
 
 ### Álbumes
-- **GET** `/albumes` → filtros: `?artistaId`, `?q`.
-- **GET** `/albumes/:id`.
+- **GET** `/albumes` → filtros: `?artistaId`, `?q`. ✅
+- **GET** `/albumes/:id`. ✅
 - **GET** `/albumes/:id/canciones`.
-- **POST** `/albumes` → validar **UNIQUE (`id_artista`,`titulo`)**.
+- **POST** `/albumes` → validar **UNIQUE (`id_artista`,`titulo`)**. ✅
 
 ### Canciones
 - **GET** `/canciones` → filtros: `?genero=`, `?artistaId=`, `?albumId=`.

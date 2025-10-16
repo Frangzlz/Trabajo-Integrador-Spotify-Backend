@@ -90,7 +90,7 @@ POST {{baseUrl}}/artistas
 Content-Type: {{json}}
 
 {
-  "nombre": "Fito Paez",
+  "nombre_artista": "Fito Paez",
   "imagen_url": "https://cdn.example.com/fito.jpg"
 }
 
@@ -109,14 +109,24 @@ POST {{baseUrl}}/albumes
 Content-Type: {{json}}
 
 {
-  "titulo": "El Amor Después Del Amor",
+  "nombre_album": "El Amor Después Del Amor",
   "id_artista": 1,
   "id_discografica": 4,
-  "anio_publicacion": 1992
+  "anio_publicacion": 1992,
+  "imagen_portada": ""
 }
+
+### Listar álbumes
+GET {{baseUrl}}/albumes
 
 ### Listar álbumes por artista
 GET {{baseUrl}}/albumes?artistaId=1
+
+### Listar álbumes por query (nombre del album)
+GET {{baseUrl}}/albumes?q=OCEAN
+
+### Listar álbumes por ID
+GET {{baseUrl}}/albumes/3
 
 ### Canciones de un álbum
 GET {{baseUrl}}/albumes/1/canciones

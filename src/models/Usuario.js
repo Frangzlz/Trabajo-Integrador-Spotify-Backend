@@ -2,13 +2,13 @@
 // Implementar todas las operaciones CRUD para usuarios
 
 const { DataTypes } = require('sequelize')
-const sequelize = require('../config/database') // ajustá el path a tu config real
+const sequelize = require('../config/database')
 
 const Usuario = sequelize.define('usuario', {
   id_usuario: {
     type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    primaryKey: true
   },
   id_pais: {
     type: DataTypes.INTEGER,
