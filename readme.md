@@ -182,7 +182,7 @@ Prefijo sugerido: `/api/v1`.
 ### Álbumes
 - **GET** `/albumes` → filtros: `?artistaId`, `?q`. ✅
 - **GET** `/albumes/:id`. ✅
-- **GET** `/albumes/:id/canciones`.
+- **GET** `/albumes/:id/canciones`. ✅
 - **POST** `/albumes` → validar **UNIQUE (`id_artista`,`titulo`)**. ✅
 
 ### Canciones

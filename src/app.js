@@ -9,6 +9,7 @@ const sequelize = require("./config/database");
 const { Artista } = require("./models/Artista");
 const { Usuario } = require("./models/Usuario");
 const { Album } = require("./models/Album");
+const { Cancion } = require("./models/Cancion");
 
 // TODO: Importar las rutas
 
@@ -27,6 +28,7 @@ app.use(async (req, res, next) => {
     await Artista.sync()
     await Usuario.sync()
     await Album.sync()
+    await Cancion.sync()
     next()
   } catch (err) {
     res.status(500).json({

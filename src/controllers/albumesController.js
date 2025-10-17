@@ -1,6 +1,7 @@
 // Controlador de Álbumes
 
 const { Album } = require("../models/Album")
+const { Cancion } = require("../models/Cancion")
 
 const getAlbums = async (req, res) => {
   try {
@@ -62,6 +63,23 @@ const getAlbumById = async (req, res) => {
   }
 }
 
+const getAlbumCanciones = async (req, res) => {
+  try {
+    const { id } = req.params
+    const albumCanciones = await Cancion.findAll({ where: { id_album: id } })
+    if (albumCanciones.length === 0) {
+      return res.status(404).json({ error: "No se encontraron canciones para este album." })
+    }
+
+    return res.json(albumCanciones)
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Server is not running',
+      description: error.message
+    })
+  }
+}
+
 const createAlbum = async (req, res) => {
   try {
     const {
@@ -112,5 +130,6 @@ const createAlbum = async (req, res) => {
 module.exports = {
   getAlbums,
   getAlbumById,
+  getAlbumCanciones,
   createAlbum
 }
