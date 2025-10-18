@@ -6,7 +6,7 @@ const getAllArtistas = async (req, res) => {
   try {
     const artistas = await Artista.findAll()
     if (artistas.length === 0) {
-      return res.status(404).json({ error: "No se encontraron productos." })
+      return res.status(404).json({ error: "No se encontraron artistas." })
     }
     
     const artistasData = artistas.map(artista => artista.dataValues)
