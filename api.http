@@ -151,12 +151,37 @@ Content-Type: {{json}}
 
 {
   "titulo": "DuracionMala",
-  "duracion_seg": 3.25,
+  "duracion_seg": 0,
   "id_album": 1
 }
 
+### Listar todas las canciones
+GET {{baseUrl}}/canciones
+
 ### Listar canciones (filtros)
-GET {{baseUrl}}/canciones?genero=Pop&albumId=1
+GET {{baseUrl}}/canciones?genero=Rock&albumId=1
+
+### Listar canciones (filtros)
+GET {{baseUrl}}/canciones?albumId=1
+
+###
+GET {{baseUrl}}/canciones?artistaId=1
+
+###
+GET {{baseUrl}}/canciones?gerero=Rock
+
+### Lista canciones por ID
+GET {{baseUrl}}/canciones/1
+
+### Modificar una cancion
+PUT {{baseUrl}}/canciones/1
+Content-Type: application/json
+
+{
+  "titulo": "Esta cancion fue modificada",
+  "reproducciones": "200050",
+  "campo_extra": 1
+}
 
 ### Asociar género a canción
 POST {{baseUrl}}/canciones/1/generos

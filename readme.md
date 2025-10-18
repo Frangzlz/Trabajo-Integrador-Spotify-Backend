@@ -186,12 +186,12 @@ Prefijo sugerido: `/api/v1`.
 - **POST** `/albumes` → validar **UNIQUE (`id_artista`,`titulo`)**. ✅
 
 ### Canciones
-- **GET** `/canciones` → filtros: `?genero=`, `?artistaId=`, `?albumId=`.
-- **GET** `/canciones/:id`.
-- **POST** `/canciones` → validar `duracion_seg` (INT>0) y `id_album` existente.
-- **PUT** `/canciones/:id`.
-- **POST** `/canciones/:id/generos` {`id_genero`} → asocia género.
-- **DELETE** `/canciones/:id/generos/:idGenero` → desasocia.
+- **GET** `/canciones` → filtros: `?genero=`, `?artistaId=`, `?albumId=`. ✅
+- **GET** `/canciones/:id`. ✅
+- **POST** `/canciones` → validar `duracion_seg` (INT>0) y `id_album` existente. ✅
+- **PUT** `/canciones/:id`. ✅
+- **POST** `/canciones/:id/generos` {`id_genero`} → asocia género. ✅
+- **DELETE** `/canciones/:id/generos/:idGenero` → desasocia. ✅
 
 ### Géneros
 - **GET** `/generos` – **POST** `/generos` (único por nombre).
