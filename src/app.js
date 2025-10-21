@@ -10,6 +10,8 @@ const { Artista } = require("./models/Artista");
 const { Usuario } = require("./models/Usuario");
 const { Album } = require("./models/Album");
 const { Cancion } = require("./models/Cancion");
+const { Genero } = require("./models/Genero");
+const { CancionGenero } = require("./models/CancionGenero");
 
 // TODO: Importar las rutas
 
@@ -29,6 +31,8 @@ app.use(async (req, res, next) => {
     await Usuario.sync()
     await Album.sync()
     await Cancion.sync()
+    await Genero.sync()
+    await CancionGenero.sync()
     next()
   } catch (err) {
     res.status(500).json({

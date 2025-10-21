@@ -194,7 +194,8 @@ Prefijo sugerido: `/api/v1`.
 - **DELETE** `/canciones/:id/generos/:idGenero` → desasocia. ✅
 
 ### Géneros
-- **GET** `/generos` – **POST** `/generos` (único por nombre).
+- **GET** `/generos` ✅
+- **POST** `/generos` (único por nombre). ✅
 
 ### Playlists
 - **GET** `/playlists` – **GET** `/playlists/:id`.

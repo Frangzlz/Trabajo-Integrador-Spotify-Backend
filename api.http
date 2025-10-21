@@ -203,7 +203,7 @@ POST {{baseUrl}}/generos
 Content-Type: {{json}}
 
 {
-  "nombre": "Pop"
+  "nombre": "Música Clasica"
 }
 
 ### Listar géneros
