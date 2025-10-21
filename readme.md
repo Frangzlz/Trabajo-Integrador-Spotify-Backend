@@ -198,11 +198,12 @@ Prefijo sugerido: `/api/v1`.
 - **POST** `/generos` (único por nombre). ✅
 
 ### Playlists
-- **GET** `/playlists` – **GET** `/playlists/:id`.
-- **POST** `/playlists`.
-- **PUT** `/playlists/:id` (cambiar `titulo` o `estado`; si `eliminada`, setear `fecha_eliminada`).
-- **POST** `/playlists/:id/canciones` {`id_cancion`, `orden`} → agregar.
-- **DELETE** `/playlists/:id/canciones/:idCancion` → quitar.
+- **GET** `/playlists` ✅
+- **GET** `/playlists/:id`. ✅
+- **POST** `/playlists`. ✅
+- **PUT** `/playlists/:id` (cambiar `titulo` o `estado`; si `eliminada`, setear `fecha_eliminada`). ✅
+- **POST** `/playlists/:id/canciones` {`id_cancion`, `orden`} → agregar. ✅
+- **DELETE** `/playlists/:id/canciones/:idCancion` → quitar. ✅
 
 ### Suscripciones
 - **GET** `/suscripciones` – **GET** `/suscripciones/:id`.

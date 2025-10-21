@@ -12,6 +12,8 @@ const { Album } = require("./models/Album");
 const { Cancion } = require("./models/Cancion");
 const { Genero } = require("./models/Genero");
 const { CancionGenero } = require("./models/CancionGenero");
+const { Playlist } = require("./models/Playlist");
+const { PlaylistCancion } = require("./models/PlaylistCancion");
 
 // TODO: Importar las rutas
 
@@ -33,6 +35,8 @@ app.use(async (req, res, next) => {
     await Cancion.sync()
     await Genero.sync()
     await CancionGenero.sync()
+    await Playlist.sync()
+    await PlaylistCancion.sync()
     next()
   } catch (err) {
     res.status(500).json({

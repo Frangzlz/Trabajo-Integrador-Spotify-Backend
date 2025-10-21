@@ -213,7 +213,13 @@ GET {{baseUrl}}/generos
 ### ==========================
 ### PLAYLISTS
 ### ==========================
-# Crear playlist (activa por defecto)
+### Listar playlist
+GET {{baseUrl}}/playlists
+
+### Listar playlist por ID
+GET {{baseUrl}}/playlists/1
+
+### Crear playlist (activa por defecto)
 POST {{baseUrl}}/playlists
 Content-Type: {{json}}
 
@@ -222,23 +228,21 @@ Content-Type: {{json}}
   "id_usuario": 1
 }
 
-### Agregar canción a playlist
-POST {{baseUrl}}/playlists/1/canciones
-Content-Type: {{json}}
-
-{
-  "id_cancion": 1,
-  "orden": 1
-}
-
-### Quitar canción de playlist
-DELETE {{baseUrl}}/playlists/1/canciones/1
-
 ### Eliminar (soft-delete) playlist → debe enviar fecha_eliminada
 PUT {{baseUrl}}/playlists/1
 Content-Type: {{json}}
 
 {
+  "estado": "eliminada",
+  "fecha_eliminada": "2025-10-02T10:00:00Z"
+}
+
+### Eliminar (soft-delete) playlist con titulo
+PUT {{baseUrl}}/playlists/1
+Content-Type: {{json}}
+
+{
+  "titulo": "Estudiar",
   "estado": "eliminada",
   "fecha_eliminada": "2025-10-02T10:00:00Z"
 }
@@ -250,6 +254,27 @@ Content-Type: {{json}}
 {
   "estado": "eliminada"
 }
+
+### Activar nuevamente una playlist
+PUT {{baseUrl}}/playlists/1
+Content-Type: {{json}}
+
+{
+  "titulo": "EstudiarActiva",
+  "estado": "activa"
+}
+
+### Agregar canción a playlist
+POST {{baseUrl}}/playlists/1/canciones
+Content-Type: {{json}}
+
+{
+  "id_cancion": 5,
+  "orden": 3
+}
+
+### Quitar canción de playlist
+DELETE {{baseUrl}}/playlists/1/canciones/1
 
 
 ### ==========================
