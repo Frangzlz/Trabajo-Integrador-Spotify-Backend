@@ -280,7 +280,13 @@ DELETE {{baseUrl}}/playlists/1/canciones/1
 ### ==========================
 ### SUSCRIPCIONES
 ### ==========================
-# Crear suscripción (fecha_renovacion > fecha_inicio)
+### Listar suscripciones
+GET {{baseUrl}}/suscripciones
+
+### Listar suscripciones por ID
+GET {{baseUrl}}/suscripciones/1
+
+### Crear suscripción (fecha_renovacion > fecha_inicio)
 POST {{baseUrl}}/suscripciones
 Content-Type: {{json}}
 

@@ -206,8 +206,9 @@ Prefijo sugerido: `/api/v1`.
 - **DELETE** `/playlists/:id/canciones/:idCancion` → quitar. ✅
 
 ### Suscripciones
-- **GET** `/suscripciones` – **GET** `/suscripciones/:id`.
-- **POST** `/suscripciones` → validar `fecha_renovacion > fecha_inicio` y **UNIQUE (`id_usuario`,`fecha_inicio`)**.
+- **GET** `/suscripciones` ✅
+- **GET** `/suscripciones/:id` ✅
+- **POST** `/suscripciones` → validar `fecha_renovacion > fecha_inicio` y **UNIQUE (`id_usuario`,`fecha_inicio`)**. ✅
 
 ### Métodos de pago
 - **GET** `/metodos-pago?usuarioId=`.
