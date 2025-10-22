@@ -15,6 +15,7 @@ const { CancionGenero } = require("./models/CancionGenero");
 const { Playlist } = require("./models/Playlist");
 const { PlaylistCancion } = require("./models/PlaylistCancion");
 const { Suscripcion } = require("./models/Suscripcion");
+const { MetodoPago } = require("./models/MetodoPago");
 
 // TODO: Importar las rutas
 
@@ -39,6 +40,7 @@ app.use(async (req, res, next) => {
     await Playlist.sync()
     await PlaylistCancion.sync()
     await Suscripcion.sync()
+    await MetodoPago.sync()
     next()
   } catch (err) {
     res.status(500).json({

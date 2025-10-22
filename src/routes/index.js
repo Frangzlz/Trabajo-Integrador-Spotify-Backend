@@ -11,7 +11,7 @@ const cancionesRoutes = require('./canciones');
 const generosRoutes = require('./generos');
 const playlistsRoutes = require('./playlists');
 const suscripcionesRoutes = require('./suscripciones');
-// const metodosPagoRoutes = require('./metodos-pago');
+const metodosPagoRoutes = require('./metodos-pago');
 // const pagosRoutes = require('./pagos');
 // const vistasRoutes = require('./vistas');
 
@@ -23,7 +23,7 @@ router.use('/canciones', cancionesRoutes);
 router.use('/generos', generosRoutes);
 router.use('/playlists', playlistsRoutes);
 router.use('/suscripciones', suscripcionesRoutes);
-// router.use('/metodos-pago', metodosPagoRoutes);
+router.use('/metodos-pago', metodosPagoRoutes);
 // router.use('/pagos', pagosRoutes);
 // router.use('/vistas', vistasRoutes);
 

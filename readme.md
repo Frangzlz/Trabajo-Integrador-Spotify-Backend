@@ -211,8 +211,8 @@ Prefijo sugerido: `/api/v1`.
 - **POST** `/suscripciones` → validar `fecha_renovacion > fecha_inicio` y **UNIQUE (`id_usuario`,`fecha_inicio`)**. ✅
 
 ### Métodos de pago
-- **GET** `/metodos-pago?usuarioId=`.
-- **POST** `/metodos-pago` → crear (sin CVC; `nro_tarjeta_masc` = `**** **** **** 1234`).
+- **GET** `/metodos-pago?usuarioId=`. ✅
+- **POST** `/metodos-pago` → crear (sin CVC; `nro_tarjeta_masc` = `**** **** **** 1234`). ✅
 
 ### Pagos
 - **GET** `/pagos?usuarioId=&desde=&hasta=`.

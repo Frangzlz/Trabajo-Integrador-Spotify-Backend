@@ -312,22 +312,54 @@ Content-Type: {{json}}
 ### ==========================
 ### MÉTODOS DE PAGO
 ### ==========================
-# Crear método de pago (sin CVC; tarjeta enmascarada por el servidor)
+### Listar métodos de pago por usuario
+GET {{baseUrl}}/metodos-pago?usuarioId=1
+
+### Crear método de pago (sin CVC; tarjeta enmascarada por el servidor)
 POST {{baseUrl}}/metodos-pago
 Content-Type: {{json}}
 
 {
   "id_usuario": 1,
-  "tipo_forma_pago": "Tarjeta de crédito",
+  "tipo_forma_pago": "Tarjeta de crédio",
   "nro_tarjeta": "4519000000001234",
   "mes_caduca": 12,
   "anio_caduca": 2027,
-  "banco_codigo": "BANK01"
+  "banco_codigo": 1
 }
 
-### Listar métodos de pago por usuario
-GET {{baseUrl}}/metodos-pago?usuarioId=1
+### Crear método de pago (Tarjeta de débito)
+POST {{baseUrl}}/metodos-pago
+Content-Type: application/json
 
+{
+  "id_usuario": 1,
+  "tipo_forma_pago": "Tarjeta de débito",
+  "banco_codigo": 2,
+  "nro_tarjeta": "4000000000001881",
+  "mes_caduca": 6,
+  "anio_caduca": 2026
+}
+
+### Crear metodo de pago (Efectivo)
+POST {{baseUrl}}/metodos-pago
+Content-Type: application/json
+
+{
+  "id_usuario": 2,
+  "tipo_forma_pago": "Efectivo"
+}
+
+### Crear metodo de pago (Debito automático x banco)
+POST {{baseUrl}}/metodos-pago
+Content-Type: application/json
+
+{
+  "id_usuario": 1,
+  "tipo_forma_pago": "Débito automático x banco",
+  "cbu": "0123456789012345678901",
+  "banco_codigo": 10
+}
 
 ### ==========================
 ### PAGOS
