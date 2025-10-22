@@ -45,7 +45,6 @@ const getCanciones = async (req, res) => {
 
     return res.json(canciones)
   } catch (error) {
-    console.error(error)
     return res.status(500).json({
       error: 'Server is not running',
       description: error.message
