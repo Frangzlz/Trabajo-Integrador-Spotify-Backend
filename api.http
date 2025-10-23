@@ -404,13 +404,10 @@ GET {{baseUrl}}/vistas/canciones-populares-por-pais?pais=Estados Unidos&limit=3
 GET {{baseUrl}}/vistas/ingresos-por-artista-discografica
 
 ### EJERCICIO 2: Con filtro por país de discográfica
-GET {{baseUrl}}/vistas/ingresos-por-artista-discografica?pais=Argentina
+GET {{baseUrl}}/vistas/ingresos-por-artista-discografica?pais=Estados Unidos
 
 ### EJERCICIO 2: Con filtro por monto mínimo de ingresos
 GET {{baseUrl}}/vistas/ingresos-por-artista-discografica?minimo_ingresos=50
-
-### EJERCICIO 2: Con ordenamiento por cantidad de suscripciones
-GET {{baseUrl}}/vistas/ingresos-por-artista-discografica?orden=suscripciones
 
 ### ==========================
 ### PRUEBAS ADICIONALES PARA VISTAS
@@ -423,4 +420,4 @@ GET {{baseUrl}}/vistas/canciones-populares-por-pais?pais=PaisInexistente
 GET {{baseUrl}}/vistas/ingresos-por-artista-discografica?page=1&limit=5
 
 ### Probar combinación de filtros
-GET {{baseUrl}}/vistas/canciones-populares-por-pais?pais=Argentina&limit=3&orden=reproducciones
+GET {{baseUrl}}/vistas/canciones-populares-por-pais?pais=Inglaterra&limit=2

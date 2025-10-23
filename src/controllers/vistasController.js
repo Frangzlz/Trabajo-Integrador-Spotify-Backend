@@ -65,43 +65,75 @@ class VistasController {
       })
     }
   }
-  // TODO: EJERCICIO 2 - Implementar vista de ingresos por artista y discográfica
-  // static async ingresosPorArtistaDiscografica(req, res) {
-  //   try {
-  //     // Consulta SQL con JOINs para obtener:
-  //     // - nombre_artista, nombre_discografica, nombre_pais_discografica,
-  //     //   total_ingresos, cantidad_suscripciones_activas
-  //     // - Incluir JOINs entre: pago -> suscripcion -> usuario -> playlist -> cancion -> album -> artista/discografica
-  //     // - Calcular ingresos totales por artista y discográfica
-  //     // - Contar suscripciones activas relacionadas
-  //
-  //     const query = `
-  //       SELECT
-  //         ar.nombre as nombre_artista,
-  //         d.nombre as nombre_discografica,
-  //         p.nombre_pais as nombre_pais_discografica,
-  //         SUM(pa.importe) as total_ingresos,
-  //         COUNT(DISTINCT s.id_suscripcion) as cantidad_suscripciones_activas
-  //       FROM pago pa
-  //       INNER JOIN suscripcion s ON pa.id_suscripcion = s.id_suscripcion
-  //       INNER JOIN usuario u ON s.id_usuario = u.id_usuario
-  //       INNER JOIN playlist pl ON u.id_usuario = pl.id_usuario
-  //       INNER JOIN playlist_cancion pc ON pl.id_playlist = pc.id_playlist
-  //       INNER JOIN cancion c ON pc.id_cancion = c.id_cancion
-  //       INNER JOIN album al ON c.id_album = al.id_album
-  //       INNER JOIN artista ar ON al.id_artista = ar.id_artista
-  //       INNER JOIN discografica d ON al.id_discografica = d.id_discografica
-  //       INNER JOIN pais p ON d.id_pais = p.id_pais
-  //       WHERE s.fecha_renovacion > NOW() AND pl.estado = 'activa'
-  //       GROUP BY ar.id_artista, d.id_discografica
-  //       ORDER BY total_ingresos DESC
-  //     `;
-  //
-  //     // Ejecutar consulta y retornar resultados
-  //   } catch (error) {
-  //     // Manejar errores
-  //   }
-  // }
+  // EJERCICIO 2 - Implementar vista de ingresos por artista y discográfica
+  static async ingresosPorArtistaDiscografica(req, res) {
+    try {
+      // Consulta SQL con JOINs para obtener:
+      // - nombre_artista, nombre_discografica, nombre_pais_discografica,
+      //   total_ingresos, cantidad_suscripciones_activas
+      // - Incluir JOINs entre: pago -> suscripcion -> usuario -> playlist -> cancion -> album -> artista/discografica
+      // - Calcular ingresos totales por artista y discográfica
+      // - Contar suscripciones activas relacionadas
+
+      const { pais, minimo_ingresos, orden } = req.query
+  
+      let query = `
+        SELECT
+          ar.nombre_artista,
+          d.nombre_discografica,
+          p.nombre_pais as nombre_pais_discografica,
+          SUM(pa.importe) as total_ingresos,
+          COUNT(DISTINCT s.id_suscripcion) as cantidad_suscripciones_activas,
+          COUNT(DISTINCT c.id_cancion) AS total_canciones,
+          ROUND(AVG(c.reproducciones)) AS promedio_reproducciones
+        FROM pagos pa
+        INNER JOIN suscripciones s ON pa.id_suscripcion = s.id_suscripcion
+        INNER JOIN usuarios u ON s.id_usuario = u.id_usuario
+        INNER JOIN playlists pl ON u.id_usuario = pl.id_usuario
+        INNER JOIN playlist_cancion pc ON pl.id_playlist = pc.id_playlist
+        INNER JOIN canciones c ON pc.id_cancion = c.id_cancion
+        INNER JOIN albums al ON c.id_album = al.id_album
+        INNER JOIN artistas ar ON al.id_artista = ar.id_artista
+        INNER JOIN discograficas d ON al.id_discografica = d.id_discografica
+        INNER JOIN paises p ON d.id_pais = p.id_pais
+        WHERE s.fecha_renovacion > NOW() AND pl.estado = 'activa'
+      `;
+
+      const params = []
+
+      // Filtrar por pais
+      if (pais) {
+        query += ` AND p.nombre_pais = ?`
+        params.push(pais)
+      }
+
+      query += `
+        GROUP BY ar.id_artista, d.id_discografica
+      `
+
+      if (minimo_ingresos) {
+        query += ` HAVING total_ingresos >= ?`
+        params.push(Number(minimo_ingresos))
+      }
+
+      query += `
+        ORDER BY total_ingresos DESC
+      `
+
+      const [resultados] = await sequelize.query(query, { replacements: params })
+
+      if (resultados.length === 0) {
+        return res.status(404).json({ message: 'No se encontraron ingresos totales en esta discografica.' });
+      }
+
+      return res.json(resultados)
+    } catch (error) {
+      return res.status(500).json({
+        error: 'Server is not running',
+        description: error.message
+      })
+    }
+  }
 }
 
 module.exports = VistasController;

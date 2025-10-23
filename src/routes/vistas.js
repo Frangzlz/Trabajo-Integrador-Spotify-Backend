@@ -14,6 +14,6 @@ router.get('/canciones-populares-por-pais', vistasController.cancionesPopularesP
 // GET /api/v1/vistas/ingresos-por-artista-discografica
 // Debe mostrar los ingresos generados por cada artista y discográfica
 // Incluir: nombre_artista, nombre_discografica, nombre_pais_discografica, total_ingresos, cantidad_suscripciones_activas
-// router.get('/ingresos-por-artista-discografica', vistasController.ingresosPorArtistaDiscografica);
+router.get('/ingresos-por-artista-discografica', vistasController.ingresosPorArtistaDiscografica);
 
 module.exports = router;

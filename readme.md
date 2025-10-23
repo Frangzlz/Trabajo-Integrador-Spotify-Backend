@@ -224,7 +224,7 @@ Prefijo sugerido: `/api/v1`.
 
 Los estudiantes deben implementar estos endpoints que utilizan **consultas complejas con múltiples JOINs**:
 
-### EJERCICIO 1: Canciones Populares por País
+### EJERCICIO 1: Canciones Populares por País ✅
 - **GET** `/vistas/canciones-populares-por-pais`
 - **Archivo**: `src/controllers/vistasController.js` → método `cancionesPopularesPorPais`
 - **Objetivo**: Mostrar las canciones más reproducidas agrupadas por país de origen de los usuarios.
@@ -233,7 +233,7 @@ Los estudiantes deben implementar estos endpoints que utilizan **consultas compl
 - **Lógica**: Agrupar por país y canción, sumar reproducciones, contar apariciones en playlists activas.
 - **Ordenamiento**: Por país y luego por total de reproducciones (DESC).
 
-### EJERCICIO 2: Ingresos por Artista y Discográfica
+### EJERCICIO 2: Ingresos por Artista y Discográfica ✅
 - **GET** `/vistas/ingresos-por-artista-discografica`
 - **Archivo**: `src/controllers/vistasController.js` → método `ingresosPorArtistaDiscografica`
 - **Objetivo**: Analizar los ingresos generados por cada combinación artista-discográfica.
