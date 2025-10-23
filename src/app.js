@@ -1,11 +1,11 @@
-/**
- * Configuración principal de la aplicación Express
- * Los estudiantes deben completar la configuración de middlewares y rutas
- */
+// Configuración principal de la aplicación Express
 
 const express = require("express");
 const router = require("./routes/index");
 const sequelize = require("./config/database");
+const swaggerUI = require('swagger-ui-express');
+const fs = require('fs')
+const yaml = require('yaml')
 const { Artista } = require("./models/Artista");
 const { Usuario } = require("./models/Usuario");
 const { Album } = require("./models/Album");
@@ -17,14 +17,12 @@ const { PlaylistCancion } = require("./models/PlaylistCancion");
 const { Suscripcion } = require("./models/Suscripcion");
 const { MetodoPago } = require("./models/MetodoPago");
 
-// TODO: Importar las rutas
-
 const app = express();
 
+// Deshabilitar header
 app.disable('x-powered-by')
 
-// TODO: Configurar parseo de JSON
-// Ejemplo: app.use(express.json());
+// Parsear json
 app.use(express.json())
 
 // Autenticacion
@@ -50,8 +48,12 @@ app.use(async (req, res, next) => {
   }
 })
 
-// TODO: Configurar rutas
-// Ejemplo: app.use('/api/v1/usuarios', usuariosRoutes);
+// Swagger
+const swaggerFl = fs.readFileSync('./src/docs/swagger.yaml', 'utf-8')
+const swaggerSpec = yaml.parse(swaggerFl)
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
+
+// Configurar rutas
 app.use('/api/v1', router)
 
 // TODO: Configurar middleware de manejo de errores (debe ir al final)

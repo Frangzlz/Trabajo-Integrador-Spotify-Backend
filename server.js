@@ -9,7 +9,7 @@ process.loadEnvFile()
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando: http://localhost:${PORT}`)
+  console.log(`Servidor escuchando: http://localhost:${PORT}/api/v1`)
 })
 
 // TODO: Agregar manejo de errores del servidor

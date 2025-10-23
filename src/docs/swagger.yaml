@@ -16,9 +16,6 @@ info:
     - **Canciones populares por país**: Análisis de reproducciones por ubicación geográfica
     - **Ingresos por artista/discográfica**: Análisis financiero detallado
     
-    ## Autenticación:
-    Algunos endpoints pueden requerir autenticación JWT (implementación opcional).
-    
   version: 1.0.0
   contact:
     name: Proyecto Integrador UNTreF
@@ -147,6 +144,924 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UsuarioResponse'
+
+  # ==================== ARTISTAS ====================
+  /artistas:
+    get:
+      tags: [Artistas]
+      summary: Listar artistas
+      description: Obtener todos los artistas de la base de datos
+      responses:
+        '200':
+          description: Lista de artistas obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Artista'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags: [Artistas]
+      summary: Crear artista
+      description: Crear un nuevo artista con sus validaciones
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/ArtistaCreate'
+            example:
+              nombre_artista: "Fito Páez"
+              imagen_url: "https://cdn.example.com/fito.jpg"
+      responses:
+        '201':
+          description: Artista creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artista'
+              example:
+                id_artista: 1
+                nombre_artista: "Fito Páez"
+                imagen_url: "https://cdn.example.com/fito.jpg"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /artistas/{id}:
+    get:
+      tags: [Artistas]
+      summary: Listar artistas por ID
+      description: Obtener un artista por su ID de la base de datos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del Artista
+      responses:
+        '200':
+          description: Artista obtenido correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Artista'
+              example:
+                id_artista: 1
+                nombre_artista: "Fito Páez"
+                imagen_url: "https://cdn.example.com/fito.jpg"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== ALBUMS ====================
+  /albumes:
+    get:
+      tags: [Álbumes]
+      summary: Listar albumes
+      description: Obtener todos los albumes o filtrarlos por artista o nombre.
+      parameters:
+        - in: query
+          name: artistaId
+          schema:
+            type: integer
+          description: Filtrar albumes por ID de artista.
+          example: 3
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Filtrar albumes por nombre exacto.
+          example: "The Wall"
+      responses:
+        '200':
+          description: Lista de albumes obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Album'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags: [Álbumes]
+      summary: Crear album
+      description: Crear un nuevo album validando que no exista otro con el mismo artista y nombre.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlbumCreate'
+            example:
+              nombre_album: "El Amor Después del Amor"
+              id_artista: 1
+              id_discografica: 2
+              anio_publicacion: 1992
+              imagen_portada: "https://cdn.example.com/fito-album.jpg"
+      responses:
+        '201':
+          description: Album creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+              example:
+                id_album: 1
+                nombre_album: "El Amor Después del Amor"
+                id_artista: 1
+                id_discografica: 2
+                anio_publicacion: 1992
+                imagen_portada: "https://cdn.example.com/fito-album.jpg"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /albumes/{id}:
+    get:
+      tags: [Álbumes]
+      summary: Obtener album por ID
+      description: Devuelve un album específico por su identificador.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del album
+      responses:
+        '200':
+          description: Album encontrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+              example:
+                id_album: 1
+                nombre_album: "The Dark Side of the Moon"
+                id_artista: 5
+                id_discografica: 2
+                anio_publicacion: 1973
+                imagen_portada: "https://cdn.example.com/darkside.jpg"
+                duracion_total_seg: 2560
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /albumes/{id}/canciones:
+    get:
+      tags: [Álbumes]
+      summary: Listar canciones de un album
+      description: Devuelve todas las canciones asociadas a un album específico.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del album
+      responses:
+        '200':
+          description: Lista de canciones obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cancion'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  
+  # ==================== CANCIONES ====================
+  /canciones:
+    get:
+      tags: [Canciones]
+      summary: Listar canciones
+      description: Obtener todas las canciones o filtrarlas por genero, artista o album.
+      parameters:
+        - in: query
+          name: genero
+          schema:
+            type: string
+          description: Filtrar canciones por nombre de genero.
+          example: "Rock"
+        - in: query
+          name: artistaId
+          schema:
+            type: integer
+          description: Filtrar canciones por ID de artista.
+          example: 2
+        - in: query
+          name: albumId
+          schema:
+            type: integer
+          description: Filtrar canciones por ID de album.
+          example: 5
+      responses:
+        '200':
+          description: Lista de canciones obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cancion'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags: [Canciones]
+      summary: Crear cancion
+      description: Crear una nueva cancion validando su duracion y album existente.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancionCreate'
+            example:
+              titulo: "Cable a Tierra"
+              duracion_seg: 245
+              id_album: 3
+              reproducciones: 10000
+              likes: 500
+      responses:
+        '201':
+          description: Cancion creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cancion'
+              example:
+                id_cancion: 1
+                titulo: "Cable a Tierra"
+                duracion_seg: 245
+                id_album: 3
+                reproducciones: 10000
+                likes: 500
+                fecha_agregada: "2025-10-16T15:00:00Z"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /canciones/{id}:
+    get:
+      tags: [Canciones]
+      summary: Obtener cancion por ID
+      description: Devuelve una cancion especifica por su identificador.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la cancion
+      responses:
+        '200':
+          description: Cancion encontrada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cancion'
+              example:
+                id_cancion: 1
+                titulo: "Mariposa Tecknicolor"
+                duracion_seg: 230
+                id_album: 2
+                reproducciones: 120000
+                likes: 3500
+                fecha_agregada: "2025-10-10T13:00:00Z"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      tags: [Canciones]
+      summary: Actualizar cancion
+      description: Modifica los datos de una cancion existente.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la cancion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancionUpdate'
+            example:
+              titulo: "Mariposa Tecknicolor (Remasterizado)"
+              duracion_seg: 235
+              likes: 4000
+      responses:
+        '200':
+          description: Cancion actualizada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cancion'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /canciones/{id}/generos:
+    post:
+      tags: [Canciones]
+      summary: Asociar genero a cancion
+      description: Crea una relación entre una cancion y un genero existente.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la cancion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_genero:
+                  type: integer
+                  example: 3
+      responses:
+        '201':
+          description: Asociacion entre cancion y genero creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancionGenero'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /canciones/{id}/generos/{idGenero}:
+    delete:
+      tags: [Canciones]
+      summary: Eliminar asociación cancion-genero
+      description: Desasocia un genero de una cancion.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la cancion
+        - in: path
+          name: idGenero
+          required: true
+          schema:
+            type: integer
+          description: ID del genero a eliminar
+      responses:
+        '200':
+          description: Asociacion eliminada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  asociacion:
+                    type: object
+                    properties:
+                      id_cancion:
+                        type: integer
+                        example: 1
+                      id_genero:
+                        type: integer
+                        example: 3
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== GÉNEROS ====================
+  /generos:
+    get:
+      tags: [Géneros]
+      summary: Listar generos
+      description: Obtener todos los generos de la base de datos.
+      responses:
+        '200':
+          description: Lista de generos obtenida correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Genero'
+              example:
+                - id_genero: 1
+                  nombre: "Rock"
+                - id_genero: 2
+                  nombre: "Pop"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags: [Géneros]
+      summary: Crear genero
+      description: Crear un nuevo genero unico.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneroCreate'
+            example:
+              nombre: "Jazz"
+      responses:
+        '201':
+          description: Genero creado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genero'
+              example:
+                id_genero: 3
+                nombre: "Jazz"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  # ==================== PLAYLISTS ====================
+  /playlists:
+    get:
+      tags: [Playlists]
+      summary: Listar playlists
+      description: Obtener todas las playlists de la base de datos
+      responses:
+        '200':
+          description: Lista de playlists obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags: [Playlists]
+      summary: Crear playlist
+      description: Crear una nueva playlist asociada a un usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistCreate'
+            example:
+              titulo: "Rock Nacional"
+              id_usuario: 1
+      responses:
+        '201':
+          description: Playlist creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+              example:
+                id_playlist: 10
+                titulo: "Rock Nacional"
+                id_usuario: 1
+                cant_canciones: 0
+                estado: "activa"
+                fecha_creacion: "2025-10-16T20:00:00Z"
+                fecha_eliminada: null
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /playlists/{id}:
+    get:
+      tags: [Playlists]
+      summary: Obtener playlist por ID
+      description: Devuelve una playlist especifica por su identificador
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Playlist obtenida correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      tags: [Playlists]
+      summary: Actualizar playlist
+      description: Permite cambiar el titulo o estado de una playlist, si se marca como eliminada, se setea la fecha de eliminacion
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistUpdate'
+            example:
+              titulo: "Rock Argentino"
+              estado: "eliminada"
+      responses:
+        '200':
+          description: Playlist actualizada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /playlists/{id}/canciones:
+    post:
+      tags: [Playlists]
+      summary: Agregar canción a playlist
+      description: Agrega una canción a una playlist con un orden
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistCancionCreate'
+            example:
+              id_cancion: 19
+              orden: 1
+      responses:
+        '201':
+          description: Cancion agregada correctamente a la playlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistCancion'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /playlists/{id}/canciones/{idCancion}:
+    delete:
+      tags: [Playlists]
+      summary: Eliminar cancion de playlist
+      description: Quita una cancion especifica de una playlist
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+        - in: path
+          name: idCancion
+          required: true
+          schema:
+            type: integer
+          example: 25
+      responses:
+        '200':
+          description: Cancion eliminada correctamente de la playlist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: La Cancion fue eliminada de la Playlist correctatamente.
+                  eliminada:
+                    type: object
+                    properties:
+                      id_playlist:
+                        type: integer
+                        example: 1
+                      id_cancion:
+                        type: integer
+                        example: 19
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== SUSCRIPCIONES ====================
+  /suscripciones:
+    get:
+      tags: [Suscripciones]
+      summary: Listar suscripciones
+      description: Obtener todas las suscripciones de la base de datos
+      responses:
+        '200':
+          description: Lista de suscripciones obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Suscripcion'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags: [Suscripciones]
+      summary: Crear suscripción
+      description: Crear una nueva suscripción (validar fechas y duplicados)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuscripcionCreate'
+            example:
+              id_usuario: 1
+              id_tipo_usuario: 2
+              fecha_inicio: "2025-10-16T00:00:00Z"
+              fecha_renovacion: "2025-11-16T00:00:00Z"
+      responses:
+        '201':
+          description: Suscripcion creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Suscripcion'
+              example:
+                id_suscripcion: 10
+                id_usuario: 1
+                id_tipo_usuario: 2
+                fecha_inicio: "2025-10-16T00:00:00Z"
+                fecha_renovacion: "2025-11-16T00:00:00Z"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /suscripciones/{id}:
+    get:
+      tags: [Suscripciones]
+      summary: Obtener suscripcion por ID
+      description: Obtener una suscripcion especifica mediante su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Suscripcion obtenida correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Suscripcion'
+              example:
+                id_suscripcion: 1
+                id_usuario: 5
+                id_tipo_usuario: 2
+                fecha_inicio: "2025-10-01T00:00:00Z"
+                fecha_renovacion: "2025-11-01T00:00:00Z"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== METODOS DE PAGO ====================
+  /metodos-pago:
+    get:
+      tags: [Métodos de Pago]
+      summary: Listar metodos de pago por usuario
+      description: Obtener todos los metodos de pago asociados a un usuario especifico
+      parameters:
+        - name: usuarioId
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 1
+          description: ID del usuario para obtener sus metodos de pago
+      responses:
+        '200':
+          description: Lista de metodos de pago obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MetodoPago'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags: [Métodos de Pago]
+      summary: Crear metodo de pago
+      description: Crear un nuevo metodo de pago para un usuario (sin almacenar CVC ni número completo de tarjeta)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetodoPagoCreate'
+            example:
+              id_usuario: 1
+              tipo_forma_pago: "Tarjeta de crédito"
+              nro_tarjeta: "1234567812345678"
+              mes_caduca: 12
+              anio_caduca: 2028
+              banco_codigo: 45
+      responses:
+        '201':
+          description: Metodo de pago creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetodoPago'
+              example:
+                id_metodo_pago: 10
+                id_usuario: 1
+                tipo_forma_pago: "Tarjeta de crédito"
+                nro_tarjeta_masc: "**** **** **** 5678"
+                mes_caduca: 12
+                anio_caduca: 2028
+                banco_codigo: 45
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== PAGOS ====================
+  /pagos:
+    get:
+      tags: [Pagos]
+      summary: Listar pagos por usuario y rango de fechas
+      description: Obtener todos los pagos asociados a un usuario dentro de un rango de fechas determinado
+      parameters:
+        - name: usuarioId
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 1
+          description: ID del usuario para obtener sus pagos
+        - name: desde
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          example: "2020-01-01"
+          description: Fecha inicial del rango (YYYY-MM-DD)
+        - name: hasta
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          example: "2025-12-31"
+          description: Fecha final del rango (YYYY-MM-DD)
+      responses:
+        '200':
+          description: Lista de pagos obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 2
+                  pagos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Pago'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags: [Pagos]
+      summary: Registrar un nuevo pago
+      description: Registrar un nuevo pago referenciando una suscripción y un método de pago válidos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PagoCreate'
+            example:
+              id_usuario: 1
+              id_suscripcion: 2
+              id_metodo_pago: 3
+              importe: 1500
+              fecha_pago: "2025-10-16T15:00:00Z"
+      responses:
+        '201':
+          description: Pago creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pago'
+              example:
+                id_pago: 15
+                id_usuario: 1
+                id_suscripcion: 2
+                id_metodo_pago: 3
+                importe: 1500
+                fecha_pago: "2025-10-16T15:00:00Z"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   # ==================== VISTAS AVANZADAS (EJERCICIOS) ====================
   /vistas/canciones-populares-por-pais:
@@ -323,12 +1238,394 @@ components:
         fecha_ult_mod_password:
           type: string
           format: date-time
-        activo:
-          type: boolean
-          example: true
         fecha_creacion:
           type: string
           format: date-time
+    
+    # ==================== ARTISTAS ====================
+    Artista:
+      type: object
+      properties:
+        id_artista:
+          type: integer
+          example: 1
+        nombre_artista:
+          type: string
+          example: "Fito Páez"
+        imagen_url:
+          type: string
+          format: uri
+          example: "https://cdn.example.com/fito.jpg"
+
+    ArtistaCreate:
+      type: object
+      required:
+        - nombre_artista
+      properties:
+        nombre_artista:
+          type: string
+          example: "Fito Páez"
+        imagen_url:
+          type: string
+          format: uri
+          example: "https://cdn.example.com/fito.jpg"
+
+    # ==================== ALBUMS ====================
+    Album:
+      type: object
+      properties:
+        id_album:
+          type: integer
+          example: 1
+        nombre_album:
+          type: string
+          example: "The Dark Side of the Moon"
+        id_artista:
+          type: integer
+          example: 5
+        id_discografica:
+          type: integer
+          example: 2
+        anio_publicacion:
+          type: integer
+          example: 1973
+        imagen_portada:
+          type: string
+          format: uri
+          example: "https://cdn.example.com/darkside.jpg"
+        duracion_total_seg:
+          type: integer
+          example: 2560
+
+    AlbumCreate:
+      type: object
+      required:
+        - nombre_album
+        - id_artista
+        - id_discografica
+        - anio_publicacion
+      properties:
+        nombre_album:
+          type: string
+          example: "El Amor Después del Amor"
+        id_artista:
+          type: integer
+          example: 1
+        id_discografica:
+          type: integer
+          example: 2
+        anio_publicacion:
+          type: integer
+          example: 1992
+        imagen_portada:
+          type: string
+          format: uri
+          example: "https://cdn.example.com/fito-album.jpg"
+
+    # ==================== CANCIONES ====================
+    Cancion:
+      type: object
+      properties:
+        id_cancion:
+          type: integer
+          example: 1
+        titulo:
+          type: string
+          example: "Cable a Tierra"
+        duracion_seg:
+          type: integer
+          example: 245
+        id_album:
+          type: integer
+          example: 3
+        reproducciones:
+          type: integer
+          example: 10000
+        likes:
+          type: integer
+          example: 500
+        fecha_agregada:
+          type: string
+          format: date-time
+          example: "2025-10-16T15:00:00Z"
+
+    CancionCreate:
+      type: object
+      required:
+        - titulo
+        - duracion_seg
+        - id_album
+      properties:
+        titulo:
+          type: string
+          description: Titulo de la cancion
+          example: "Mariposa Tecknicolor"
+        duracion_seg:
+          type: integer
+          description: Duración en segundos
+          example: 230
+        id_album:
+          type: integer
+          description: ID del album al que pertenece
+          example: 2
+        reproducciones:
+          type: integer
+          description: Número inicial de reproducciones (opcional)
+          example: 1200
+        likes:
+          type: integer
+          description: Número inicial de likes (opcional)
+          example: 80
+
+    CancionUpdate:
+      type: object
+      properties:
+        titulo:
+          type: string
+          description: Nuevo título de la cancion
+          example: "Mariposa Tecknicolor (Remasterizado)"
+        duracion_seg:
+          type: integer
+          description: Nueva duración en segundos
+          example: 235
+        id_album:
+          type: integer
+          description: ID de un nuevo album (opcional)
+          example: 4
+        reproducciones:
+          type: integer
+          description: Cantidad actualizada de reproducciones
+          example: 15000
+        likes:
+          type: integer
+          description: Cantidad actualizada de likes
+          example: 500
+
+    # ==================== GENEROS ====================
+    Genero:
+      type: object
+      properties:
+        id_genero:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Rock"
+
+    GeneroCreate:
+      type: object
+      required:
+        - nombre
+      properties:
+        nombre:
+          type: string
+          description: Nombre del género musical (único).
+          example: "Jazz"
+
+    CancionGenero:
+      type: object
+      properties:
+        id_cancion:
+          type: integer
+          example: 1
+        id_genero:
+          type: integer
+          example: 3
+
+    # ==================== PLAYLISTS ====================
+    Playlist:
+      type: object
+      properties:
+        id_playlist:
+          type: integer
+        titulo:
+          type: string
+        id_usuario:
+          type: integer
+        cant_canciones:
+          type: integer
+        estado:
+          type: string
+          enum: [activa, eliminada]
+        fecha_creacion:
+          type: string
+          format: date-time
+        fecha_eliminada:
+          type: string
+          nullable: true
+          format: date-time
+
+    PlaylistCreate:
+      type: object
+      required: [titulo, id_usuario]
+      properties:
+        titulo:
+          type: string
+        id_usuario:
+          type: integer
+
+    PlaylistUpdate:
+      type: object
+      properties:
+        titulo:
+          type: string
+        estado:
+          type: string
+          enum: [activa, eliminada]
+        fecha_eliminada:
+          type: string
+          format: date-time
+          nullable: true
+
+    PlaylistCancion:
+      type: object
+      properties:
+        id_playlist:
+          type: integer
+        id_cancion:
+          type: integer
+        orden:
+          type: integer
+        fecha_agregada:
+          type: string
+          format: date-time
+
+    PlaylistCancionCreate:
+      type: object
+      required: [id_cancion, orden]
+      properties:
+        id_cancion:
+          type: integer
+        orden:
+          type: integer
+
+    # ==================== SUSCRIPCIONES ====================
+    Suscripcion:
+      type: object
+      properties:
+        id_suscripcion:
+          type: integer
+        id_usuario:
+          type: integer
+        id_tipo_usuario:
+          type: integer
+        fecha_inicio:
+          type: string
+          format: date-time
+        fecha_renovacion:
+          type: string
+          format: date-time
+
+    SuscripcionCreate:
+      type: object
+      required:
+        - id_usuario
+        - id_tipo_usuario
+        - fecha_inicio
+        - fecha_renovacion
+      properties:
+        id_usuario:
+          type: integer
+        id_tipo_usuario:
+          type: integer
+        fecha_inicio:
+          type: string
+          format: date-time
+        fecha_renovacion:
+          type: string
+          format: date-time
+    
+    # ==================== METODOS DE PAGO ====================
+    MetodoPago:
+      type: object
+      properties:
+        id_metodo_pago:
+          type: integer
+        id_usuario:
+          type: integer
+        tipo_forma_pago:
+          type: string
+          enum:
+            - Efectivo
+            - Tarjeta de crédito
+            - Tarjeta de débito
+            - Débito automático x banco
+        cbu:
+          type: string
+          nullable: true
+          example: "****************1234"
+        banco_codigo:
+          type: integer
+          nullable: true
+        nro_tarjeta_masc:
+          type: string
+          nullable: true
+          example: "**** **** **** 1234"
+        mes_caduca:
+          type: integer
+          nullable: true
+          example: 12
+        anio_caduca:
+          type: integer
+          nullable: true
+          example: 2028
+
+    MetodoPagoCreate:
+      type: object
+      required:
+        - id_usuario
+        - tipo_forma_pago
+      properties:
+        id_usuario:
+          type: integer
+        tipo_forma_pago:
+          type: string
+          enum:
+            - Efectivo
+            - Tarjeta de crédito
+            - Tarjeta de débito
+            - Débito automático x banco
+        cbu:
+          type: string
+          nullable: true
+          example: "1234567890123456789012"
+        banco_codigo:
+          type: integer
+          nullable: true
+        nro_tarjeta:
+          type: string
+          nullable: true
+          example: "1234567812345678"
+        mes_caduca:
+          type: integer
+          nullable: true
+        anio_caduca:
+          type: integer
+          nullable: true
+
+    # ==================== PAGOS ====================
+    Pago:
+      type: object
+      properties:
+        id_pago:
+          type: integer
+          example: 10
+        id_usuario:
+          type: integer
+          example: 3
+        id_suscripcion:
+          type: integer
+          example: 1
+        id_metodo_pago:
+          type: integer
+          example: 2
+        importe:
+          type: number
+          example: 1500
+        fecha_pago:
+          type: string
+          format: date-time
+          example: "2025-10-16T15:00:00Z"
 
     # ==================== SCHEMAS PARA EJERCICIOS ====================
     CancionPopularPorPais:
@@ -488,7 +1785,3 @@ components:
         ```
         Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         ```
-
-# Aplicar seguridad globalmente (opcional)
-# security:
-#   - BearerAuth: []
