@@ -215,8 +215,8 @@ Prefijo sugerido: `/api/v1`.
 - **POST** `/metodos-pago` → crear (sin CVC; `nro_tarjeta_masc` = `**** **** **** 1234`). ✅
 
 ### Pagos
-- **GET** `/pagos?usuarioId=&desde=&hasta=`.
-- **POST** `/pagos` → registrar pago referenciando `id_suscripcion` y `id_metodo_pago` válidos.
+- **GET** `/pagos?usuarioId=&desde=&hasta=`. ✅
+- **POST** `/pagos` → registrar pago referenciando `id_suscripcion` y `id_metodo_pago` válidos. ✅
 
 ---
 

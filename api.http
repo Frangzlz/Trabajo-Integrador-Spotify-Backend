@@ -364,7 +364,10 @@ Content-Type: application/json
 ### ==========================
 ### PAGOS
 ### ==========================
-# Registrar pago (referenciando suscripción y método de pago válidos)
+### Listar pagos por usuario y rango
+GET {{baseUrl}}/pagos?usuarioId=1&desde=2020-01-01&hasta=2025-12-31
+
+### Registrar pago (referenciando suscripción y método de pago válidos)
 POST {{baseUrl}}/pagos
 Content-Type: {{json}}
 
@@ -375,9 +378,6 @@ Content-Type: {{json}}
   "importe": 100,
   "fecha_pago": "2025-10-01T00:00:00Z"
 }
-
-### Listar pagos por usuario y rango
-GET {{baseUrl}}/pagos?usuarioId=1&desde=2025-09-01&hasta=2025-12-31
 
 
 ### ==========================
