@@ -1,44 +1,70 @@
-/**
- * Controlador de Vistas - EJERCICIOS ADICIONALES
- * Los estudiantes deben implementar consultas complejas con JOINs
- */
+// Controlador de Vistas - EJERCICIOS ADICIONALES
+// Los estudiantes deben implementar consultas complejas con JOINs
 
-const { pool } = require("../config/database");
+const sequelize = require('../config/database')
 
 class VistasController {
-  // TODO: EJERCICIO 1 - Implementar vista de canciones populares por país
-  // static async cancionesPopularesPorPais(req, res) {
-  //   try {
-  //     // Consulta SQL con JOINs para obtener:
-  //     // - nombre_cancion, nombre_artista, nombre_album, nombre_pais, total_reproducciones
-  //     // - Agrupar por país y mostrar las canciones más reproducidas
-  //     // - Incluir JOINs entre: cancion -> album -> artista, usuario -> pais
-  //     // - Ordenar por total_reproducciones DESC
-  //
-  //     const query = `
-  //       SELECT
-  //         c.titulo as nombre_cancion,
-  //         ar.nombre as nombre_artista,
-  //         al.titulo as nombre_album,
-  //         p.nombre_pais,
-  //         SUM(c.reproducciones) as total_reproducciones
-  //       FROM cancion c
-  //       INNER JOIN album al ON c.id_album = al.id_album
-  //       INNER JOIN artista ar ON al.id_artista = ar.id_artista
-  //       INNER JOIN playlist_cancion pc ON c.id_cancion = pc.id_cancion
-  //       INNER JOIN playlist pl ON pc.id_playlist = pl.id_playlist
-  //       INNER JOIN usuario u ON pl.id_usuario = u.id_usuario
-  //       INNER JOIN pais p ON u.id_pais = p.id_pais
-  //       WHERE pl.estado = 'activa'
-  //       GROUP BY c.id_cancion, p.id_pais
-  //       ORDER BY p.nombre_pais, total_reproducciones DESC
-  //     `;
-  //
-  //     // Ejecutar consulta y retornar resultados
-  //   } catch (error) {
-  //     // Manejar errores
-  //   }
-  // }
+  // EJERCICIO 1 - Implementar vista de canciones populares por país
+  static async cancionesPopularesPorPais(req, res) {
+    try {
+      // Consulta SQL con JOINs para obtener:
+      // - nombre_cancion, nombre_artista, nombre_album, nombre_pais, total_reproducciones
+      // - Agrupar por país y mostrar las canciones más reproducidas
+      // - Incluir JOINs entre: cancion -> album -> artista, usuario -> pais
+      // - Ordenar por total_reproducciones DESC
+
+      const { pais, limit } = req.query
+  
+      let query = `
+        SELECT
+          p.nombre_pais,
+          c.titulo AS nombre_cancion,
+          a.nombre_artista,
+          al.nombre_album,
+          SUM(c.reproducciones) AS total_reproducciones
+        FROM canciones c
+        INNER JOIN albums al ON c.id_album = al.id_album
+        INNER JOIN artistas a ON al.id_artista = a.id_artista
+        INNER JOIN playlist_cancion pc ON c.id_cancion = pc.id_cancion
+        INNER JOIN playlists pl ON pc.id_playlist = pl.id_playlist
+        INNER JOIN usuarios u ON pl.id_usuario = u.id_usuario
+        INNER JOIN paises p ON u.id_pais = p.id_pais
+        WHERE pl.estado = 'activa'
+      `;
+  
+      const params = []
+
+      // Filtrar por pais
+      if (pais) {
+        query += ` AND p.nombre_pais = ?`
+        params.push(pais)
+      }
+
+      query += `
+        GROUP BY c.id_cancion, p.id_pais
+        ORDER BY p.nombre_pais, total_reproducciones DESC
+      `
+
+      // Si hay limite
+      if (limit) {
+        query += ` LIMIT ?`
+        params.push(Number(limit))
+      }
+
+      const [resultados] = await sequelize.query(query, { replacements: params })
+
+      if (resultados.length === 0) {
+        return res.status(404).json({ message: 'No se encontraron canciones populares en este pais.' });
+      }
+
+      return res.json(resultados)
+    } catch (error) {
+      return res.status(500).json({
+        error: 'Server is not running',
+        description: error.message
+      })
+    }
+  }
   // TODO: EJERCICIO 2 - Implementar vista de ingresos por artista y discográfica
   // static async ingresosPorArtistaDiscografica(req, res) {
   //   try {

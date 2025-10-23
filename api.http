@@ -390,10 +390,13 @@ Content-Type: {{json}}
 GET {{baseUrl}}/vistas/canciones-populares-por-pais
 
 ### EJERCICIO 1: Con filtros opcionales (por país específico)
-GET {{baseUrl}}/vistas/canciones-populares-por-pais?pais=Argentina
+GET {{baseUrl}}/vistas/canciones-populares-por-pais?pais=España
 
 ### EJERCICIO 1: Con límite de resultados
-GET {{baseUrl}}/vistas/canciones-populares-por-pais?limit=10
+GET {{baseUrl}}/vistas/canciones-populares-por-pais?limit=4
+
+### EJERCICIO 1: Ambos parametros
+GET {{baseUrl}}/vistas/canciones-populares-por-pais?pais=Estados Unidos&limit=3
 
 ### EJERCICIO 2: Ingresos por artista y discográfica
 # Analizar ingresos generados por cada combinación artista-discográfica
